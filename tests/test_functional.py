@@ -1,3 +1,4 @@
+import inspect
 import json
 import pathlib
 import time
@@ -7,7 +8,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
-
 from Pages.AccountingPage import AccountingPage
 from Pages.DispensaryPage import DispensaryPage
 from Pages.LaboratoryPage import LaboratoryPage
@@ -59,23 +59,29 @@ def test_verify_patient_name(setup_driver):
     Expected Result:
     - The 'Visit Type' column should contain only patients in the "new visit" category.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    appointment_page = AppointmentPage(driver)
-    testResult = appointment_page.verify_patient_name()
-    time.sleep(5)
-    verificationResult = verify_patient_search_happened(driver)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_patient_name", True, "Functional")
-        print("test_verify_patient_name = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        appointment_page = AppointmentPage(driver)
+        testResult = appointment_page.verify_patient_name()
+        print(f"This is result of 1 {testResult}")
+        time.sleep(5)
+        verificationResult = verify_patient_search_happened(driver)
+        print(f"This is result of 1 {verificationResult}")
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_patient_name", True, "functional")
+            print("verify_patient_name = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_patient_name", False, "functional")
+            print("verify_patient_name = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_patient_name", False, "Functional")
-        print("test_verify_patient_name = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_patient_name", False, "functional")
+        print("verify_patient_name = Failed")
+    assert passed
 
 
 @pytest.mark.order(2)
@@ -86,23 +92,29 @@ def test_verify_active_counter_message_in_dispensary(setup_driver):
     Expected Result:
     - An alert with the message "Patient not Selected! Please Select the patient first!" is displayed and handled.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    dispensaryPage = DispensaryPage(driver)
-    testResult = dispensaryPage.verify_active_counter_message_in_dispensary()
-    time.sleep(5)
-    verificationResult = verify_dispensary_counter_activation(driver)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_active_counter_message_in_dispensary", True, "Functional")
-        print("test_verify_active_counter_message_in_dispensary = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        dispensaryPage = DispensaryPage(driver)
+        testResult = dispensaryPage.verify_active_counter_message_in_dispensary()
+        print(f"This is result of 2 {testResult}")
+        time.sleep(5)
+        verificationResult = verify_dispensary_counter_activation(driver)
+        print(f"This is result of 2 {verificationResult}")
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_active_counter_message_in_dispensary", True, "functional")
+            print("verify_active_counter_message_in_dispensary = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_active_counter_message_in_dispensary", False, "functional")
+            print("verify_active_counter_message_in_dispensary = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_active_counter_message_in_dispensary", False, "Functional")
-        print("test_verify_active_counter_message_in_dispensary = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_active_counter_message_in_dispensary", False, "functional")
+        print("verify_active_counter_message_in_dispensary = Failed")
+    assert passed
 
 
 @pytest.mark.order(3)
@@ -119,23 +131,29 @@ def test_verify_purchase_request_list_elements(setup_driver):
         Expected Result:
         - Verify the same patient overview page is displayed with the same patient name.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    procurementPage = ProcurementPage(driver)
-    testResult = procurementPage.verify_purchase_request_list_elements()
-    verificationResult = verify_user_is_on_correct_url(driver,"ProcurementMain/PurchaseRequest/PurchaseRequestList")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_purchase_request_list_elements", True, "Functional")
-        print("test_verify_purchase_request_list_elements = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        procurementPage = ProcurementPage(driver)
+        testResult = procurementPage.verify_purchase_request_list_elements()
+        print(f"This is result of 3 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver,"ProcurementMain/PurchaseRequest/PurchaseRequestList")
+        print(f"This is result of 3 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_purchase_request_list_elements", True, "functional")
+            print("verify_purchase_request_list_elements = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_purchase_request_list_elements", False, "functional")
+            print("verify_purchase_request_list_elements = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_purchase_request_list_elements", False, "Functional")
-        print("test_verify_purchase_request_list_elements = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_purchase_request_list_elements", False, "functional")
+        print("verify_purchase_request_list_elements = Failed")
+    assert passed
 
 @pytest.mark.order(4)
 def test_verify_error_message(setup_driver):
@@ -154,23 +172,29 @@ def test_verify_error_message(setup_driver):
         Expected Result:
         - A success confirmation popup with the message: "Progress Note Template added." should appear.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    laboratoryPage = LaboratoryPage(driver)
-    testResult = laboratoryPage.verify_error_message()
-    verificationResult = check_error_message_occurs(driver)
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_error_message", True, "Functional")
-        print("test_verify_error_message = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        laboratoryPage = LaboratoryPage(driver)
+        testResult = laboratoryPage.verify_error_message()
+        print(f"This is result of 4 {testResult}")
+        verificationResult = check_error_message_occurs(driver)
+        print(f"This is result of 4 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_error_message", True, "functional")
+            print("verify_error_message = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_error_message", False, "functional")
+            print("verify_error_message = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_error_message", False, "Functional")
-        print("test_verify_error_message = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_error_message", False, "functional")
+        print("verify_error_message = Failed")
+    assert passed
 
 @pytest.mark.order(5)
 def test_perform_radiology_request_and_handle_alert(setup_driver):
@@ -187,28 +211,34 @@ def test_perform_radiology_request_and_handle_alert(setup_driver):
         Expected Result:
         - The new currency should be added successfully and displayed in the table with the correct currency code and description.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    radiologyPage = RadiologyPage(driver)
-    with open("C:/Users/testu/Downloads/YakshaPythonPL2Final/Data/testData.json", "r") as file:
-        test_data = json.load(file)
-    data = {
-        "FromDate": str(test_data["DateRange"][0]["FromDate"])
-    }
-    testResult = radiologyPage.perform_radiology_request_and_handle_alert(data)
-    verificationResult = verify_user_is_on_correct_url(driver,"Radiology/ImagingRequisitionList")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_perform_radiology_request_and_handle_alert", True, "Functional")
-        print("test_perform_radiology_request_and_handle_alert = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        radiologyPage = RadiologyPage(driver)
+        with open("C:/Users/testu/Downloads/YakshaPythonPL2Final/Data/testData.json", "r") as file:
+            test_data = json.load(file)
+        data = {
+            "FromDate": str(test_data["DateRange"][0]["FromDate"])
+        }
+        testResult = radiologyPage.perform_radiology_request_and_handle_alert(data)
+        print(f"This is result of 5 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver,"Radiology/ImagingRequisitionList")
+        print(f"This is result of 5 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("perform_radiology_request_and_handle_alert", True, "functional")
+            print("perform_radiology_request_and_handle_alert = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("perform_radiology_request_and_handle_alert", False, "functional")
+            print("perform_radiology_request_and_handle_alert = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_perform_radiology_request_and_handle_alert", False, "Functional")
-        print("test_perform_radiology_request_and_handle_alert = Failed")
-        assert False
+        test_obj.yakshaAssert("perform_radiology_request_and_handle_alert", False, "functional")
+        print("perform_radiology_request_and_handle_alert = Failed")
+    assert passed
 
 @pytest.mark.order(6)
 def test_search_and_verify_patients(setup_driver):
@@ -224,26 +254,32 @@ def test_search_and_verify_patients(setup_driver):
         Expected Result:
         - A warning popup with the message: "Please fill all the mandatory fields."
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    patientPage = PatientPage(driver)
-    with open("C:/Users/testu/Downloads/YakshaPythonPL2Final/Data/testData.json", "r") as file:
-        test_data = json.load(file)
-    patient_data = [list(patient.values())[0] for patient in test_data["PatientNames"]]
-    testResult = patientPage.search_and_verify_patients(patient_data)
-    verificationResult = verify_user_is_on_correct_url(driver,"Patient/SearchPatient")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_search_and_verify_patients", True, "Functional")
-        print("test_search_and_verify_patients = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        patientPage = PatientPage(driver)
+        with open("C:/Users/testu/Downloads/YakshaPythonPL2Final/Data/testData.json", "r") as file:
+            test_data = json.load(file)
+        patient_data = [list(patient.values())[0] for patient in test_data["PatientNames"]]
+        testResult = patientPage.search_and_verify_patients(patient_data)
+        print(f"This is result of 6 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver,"Patient/SearchPatient")
+        print(f"This is result of 6 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("search_and_verify_patients", True, "functional")
+            print("search_and_verify_patients = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("search_and_verify_patients", False, "functional")
+            print("search_and_verify_patients = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_search_and_verify_patients", False, "Functional")
-        print("test_search_and_verify_patients = Failed")
-        assert False
+        test_obj.yakshaAssert("search_and_verify_patients", False, "functional")
+        print("search_and_verify_patients = Failed")
+    assert passed
 
 @pytest.mark.order(7)
 def test_verify_notice_message_after_entering_incorrect_filters(setup_driver):
@@ -258,23 +294,29 @@ def test_verify_notice_message_after_entering_incorrect_filters(setup_driver):
         Expected Result:
         - Verify that the user is redirected to the "User Profile" page and the page header or title confirms this.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    procurementPage = ProcurementPage(driver)
-    testResult = procurementPage.verify_notice_message_after_entering_incorrect_filters()
-    verificationResult = verify_date_filter_error_message(driver)
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_notice_message_after_entering_incorrect_filter", True, "Functional")
-        print("test_verify_notice_message_after_entering_incorrect_filter = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        procurementPage = ProcurementPage(driver)
+        testResult = procurementPage.verify_notice_message_after_entering_incorrect_filters()
+        print(f"This is result of 7 {testResult}")
+        verificationResult = verify_date_filter_error_message(driver)
+        print(f"This is result of 7 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_notice_message_after_entering_incorrect_filters", True, "functional")
+            print("verify_notice_message_after_entering_incorrect_filters = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_notice_message_after_entering_incorrect_filters", False, "functional")
+            print("verify_notice_message_after_entering_incorrect_filters = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_notice_message_after_entering_incorrect_filter", False, "Functional")
-        print("test_verify_notice_message_after_entering_incorrect_filter = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_notice_message_after_entering_incorrect_filters", False, "functional")
+        print("verify_notice_message_after_entering_incorrect_filters = Failed")
+    assert passed
 
 @pytest.mark.order(8)
 def test_verify_maternity_allowance_report(setup_driver):
@@ -291,23 +333,29 @@ def test_verify_maternity_allowance_report(setup_driver):
         Expected Result:
         - Verify that the "Maternity Allowance Payment Receipt" modal appears.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    maternityPage = MaternityPage(driver)
-    testResult = maternityPage.verify_maternity_allowance_report()
-    verificationResult = verify_user_is_on_correct_url(driver,"/Maternity/Reports/MaternityAllowance")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_maternity_allowance_report", True, "Functional")
-        print("test_verify_maternity_allowance_report = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        maternityPage = MaternityPage(driver)
+        testResult = maternityPage.verify_maternity_allowance_report()
+        print(f"This is result of 8 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver,"/Maternity/Reports/MaternityAllowance")
+        print(f"This is result of 8 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_maternity_allowance_report", True, "functional")
+            print("verify_maternity_allowance_report = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_maternity_allowance_report", False, "functional")
+            print("verify_maternity_allowance_report = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_maternity_allowance_report", False, "Functional")
-        print("test_verify_maternity_allowance_report = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_maternity_allowance_report", False, "functional")
+        print("verify_maternity_allowance_report = Failed")
+    assert passed
 
 @pytest.mark.order(9)
 def test_verify_occupied_bed_edit(setup_driver):
@@ -323,23 +371,29 @@ def test_verify_occupied_bed_edit(setup_driver):
         Expected Result:
         - Clicking Edit on an occupied bed should not allow modifications and should display the error message "Cannot modify occupied beds."
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    settingsPage = SettingsPage(driver)
-    testResult = settingsPage.verify_occupied_bed_edit()
-    verificationResult = verify_user_is_on_correct_url(driver, "/Settings/ADTManage/ManageBed")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_occupied_bed_edit", True, "Functional")
-        print("test_verify_occupied_bed_edit = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        settingsPage = SettingsPage(driver)
+        testResult = settingsPage.verify_occupied_bed_edit()
+        print(f"This is result of 9 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/Settings/ADTManage/ManageBed")
+        print(f"This is result of 9 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_occupied_bed_edit", True, "functional")
+            print("verify_occupied_bed_edit = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_occupied_bed_edit", False, "functional")
+            print("verify_occupied_bed_edit = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_occupied_bed_edit", False, "Functional")
-        print("test_verify_occupied_bed_edit = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_occupied_bed_edit", False, "functional")
+        print("verify_occupied_bed_edit = Failed")
+    assert passed
 
 @pytest.mark.order(10)
 def test_activate_counter_and_select_sale(setup_driver):
@@ -354,23 +408,29 @@ def test_activate_counter_and_select_sale(setup_driver):
         Expected Result:
         - Add New Patient modal should open."
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    dispensaryPage = DispensaryPage(driver)
-    testResult = dispensaryPage.activate_counter_and_select_sale()
-    verificationResult = verify_user_is_on_correct_url(driver, "/Dispensary/Sale/New")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_activate_counter_and_select_sale", True, "Functional")
-        print("test_activate_counter_and_select_sale = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        dispensaryPage = DispensaryPage(driver)
+        testResult = dispensaryPage.activate_counter_and_select_sale()
+        print(f"This is result of 10 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/Dispensary/Sale/New")
+        print(f"This is result of 10 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("activate_counter_and_select_sale", True, "functional")
+            print("activate_counter_and_select_sale = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("activate_counter_and_select_sale", False, "functional")
+            print("activate_counter_and_select_sale = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_activate_counter_and_select_sale", False, "Functional")
-        print("test_activate_counter_and_select_sale = Failed")
-        assert False
+        test_obj.yakshaAssert("activate_counter_and_select_sale", False, "functional")
+        print("activate_counter_and_select_sale = Failed")
+    assert passed
 
 @pytest.mark.order(11)
 def test_verify_ot_booking(setup_driver):
@@ -386,23 +446,29 @@ def test_verify_ot_booking(setup_driver):
         Expected Result:
         - Verify the placeholder name of Remarks text area.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    ot_Page = OperationTheatrePage(driver)
-    testResult = ot_Page.verify_ot_booking()
-    verificationResult = verify_user_is_on_correct_url(driver, "/OperationTheatre/OtBookingList")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_verify_ot_booking", True, "Functional")
-        print("test_verify_ot_booking = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        ot_Page = OperationTheatrePage(driver)
+        testResult = ot_Page.verify_ot_booking()
+        print(f"This is result of 11 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/OperationTheatre/OtBookingList")
+        print(f"This is result of 11 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("verify_ot_booking", True, "functional")
+            print("verify_ot_booking = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("verify_ot_booking", False, "functional")
+            print("verify_ot_booking = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_verify_ot_booking", False, "Functional")
-        print("test_verify_ot_booking = Failed")
-        assert False
+        test_obj.yakshaAssert("verify_ot_booking", False, "functional")
+        print("verify_ot_booking = Failed")
+    assert passed
 
 @pytest.mark.order(12)
 def test_load_daily_transactions_report(setup_driver):
@@ -418,23 +484,29 @@ def test_load_daily_transactions_report(setup_driver):
         Expected Result:
         - Clicking on Load should populate the table with relevant transaction data
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    accountingPage = AccountingPage(driver)
-    testResult = accountingPage.load_daily_transactions_report()
-    verificationResult = verify_user_is_on_correct_url(driver, "/Accounting/Reports/DailyTransactionReport")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_load_daily_transactions_report", True, "Functional")
-        print("test_load_daily_transactions_report = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        accountingPage = AccountingPage(driver)
+        testResult = accountingPage.load_daily_transactions_report()
+        print(f"This is result of 12 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/Accounting/Reports/DailyTransactionReport")
+        print(f"This is result of 12 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("load_daily_transactions_report", True, "functional")
+            print("load_daily_transactions_report = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("load_daily_transactions_report", False, "functional")
+            print("load_daily_transactions_report = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_load_daily_transactions_report", False, "Functional")
-        print("test_load_daily_transactions_report = Failed")
-        assert False
+        test_obj.yakshaAssert("load_daily_transactions_report", False, "functional")
+        print("load_daily_transactions_report = Failed")
+    assert passed
 
 @pytest.mark.order(13)
 def test_search_patient_and_view_overview(setup_driver):
@@ -451,23 +523,29 @@ def test_search_patient_and_view_overview(setup_driver):
         Expected Result:
         - Clicking on Overview should navigate the user to the Patient Overview page successfully.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    nursingPage = NursingPage(driver)
-    testResult = nursingPage.search_patient_and_view_overview()
-    verificationResult = verify_user_is_on_correct_url(driver, "/Nursing/PatientOverviewMain/PatientOverview")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_search_patient_and_view_overview", True, "Functional")
-        print("test_search_patient_and_view_overview = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        nursingPage = NursingPage(driver)
+        testResult = nursingPage.search_patient_and_view_overview()
+        print(f"This is result of 13 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/Nursing/PatientOverviewMain/PatientOverview")
+        print(f"This is result of 13 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("search_patient_and_view_overview", True, "functional")
+            print("search_patient_and_view_overview = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("search_patient_and_view_overview", False, "functional")
+            print("search_patient_and_view_overview = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_search_patient_and_view_overview", False, "Functional")
-        print("test_search_patient_and_view_overview = Failed")
-        assert False
+        test_obj.yakshaAssert("search_patient_and_view_overview", False, "functional")
+        print("search_patient_and_view_overview = Failed")
+    assert passed
 
 @pytest.mark.order(14)
 def test_filter_sample_collections(setup_driver):
@@ -485,23 +563,29 @@ def test_filter_sample_collections(setup_driver):
         Expected Result:
         - Table should display only rows with "Male Ward" in the Item column.
     """
-    test_obj = TestUtils()
-    driver = setup_driver
-    login_to_application(driver)  # Perform login before test
-    labPage = LaboratoryPage(driver)
-    testResult = labPage.filter_sample_collections()
-    verificationResult = verify_user_is_on_correct_url(driver, "/Nursing/PatientOverviewMain/PatientOverview")
-    time.sleep(5)
-    if (testResult == True and verificationResult == True):
-        passed = True
-        test_obj.yakshaAssert("test_filter_sample_collections", True, "Functional")
-        print("test_filter_sample_collections = Passed")
-        assert True
-    else:
+    try:
+        test_obj = TestUtils()
+        driver = setup_driver
+        login_to_application(driver)  # Perform login before test
+        labPage = LaboratoryPage(driver)
+        testResult = labPage.filter_sample_collections()
+        print(f"This is result of 14 {testResult}")
+        verificationResult = verify_user_is_on_correct_url(driver, "/Nursing/PatientOverviewMain/PatientOverview")
+        print(f"This is result of 14 {verificationResult}")
+        time.sleep(5)
+        if (testResult == True and verificationResult == True):
+            passed = True
+            test_obj.yakshaAssert("filter_sample_collections", True, "functional")
+            print("filter_sample_collections = Passed")
+        else:
+            passed = False
+            test_obj.yakshaAssert("filter_sample_collections", False, "functional")
+            print("filter_sample_collections = Failed")
+    except:
         passed = False
-        test_obj.yakshaAssert("test_filter_sample_collections", False, "Functional")
-        print("test_filter_sample_collections = Failed")
-        assert False
+        test_obj.yakshaAssert("filter_sample_collections", False, "functional")
+        print("filter_sample_collections = Failed")
+    assert passed
 
 
 """------------------------------------------------- Helper Method------------------------------------------------------------"""
@@ -536,7 +620,7 @@ def verify_dispensary_counter_activation(driver) -> bool:
     """
     try:
         is_visible = driver.find_element(By.XPATH, "//button[contains(text(),'Deactivate Counter')]")
-        return is_visible
+        return is_visible.is_displayed()
     except Exception as e:
         print(f"Error verifying dispensary counter activation: {e}")
         return False
@@ -567,31 +651,30 @@ def check_error_message_occurs(driver) -> bool:
     */
     """
     try:
-        close_button = driver.find_element(By.XPATH('//button[contains(text(),"Close")]'))
-        close_button.click()
+        is_error_displayed = driver.find_element(By.XPATH('//p[contains(text(),"error")]/../p[contains(text(),"Lab Test Code Required.")]')).is_displayed()
 
-        return "Lab/Settings/LabTest" in driver.URL
+        return "Lab/Settings/LabTest" in driver.URL and is_error_displayed
     except Exception as e:
         print(f"Error while checking error message: {e}")
         return False
 
-def verify_date_filter_error_message(driver) -> bool:
-    """
-    /**
-    * @description This method verifies the error message displayed after entering an invalid date in the filter.
-    * @param page - Playwright page instance.
-    * @return boolean - Returns True if the error message is verified successfully, otherwise False.
-    */
-    """
-    try:
-        invalid_msg = driver.find_element(By.XPATH("//div[contains(@class,'invalid-msg-cal')]"))
-        error_message = invalid_msg.text
-        if invalid_msg.is_visible() and error_message.strip() == "Date is not between Range. Please enter again":
-            return True
-        return False
-    except Exception as e:
-        print(f"Error verifying date filter error message: {e}")
-        return False
+# def verify_date_filter_error_message(driver) -> bool:
+#     """
+#     /**
+#     * @description This method verifies the error message displayed after entering an invalid date in the filter.
+#     * @param page - Playwright page instance.
+#     * @return boolean - Returns True if the error message is verified successfully, otherwise False.
+#     */
+#     """
+#     try:
+#         invalid_msg = driver.find_element(By.XPATH("//div[contains(@class,'invalid-msg-cal')]"))
+#         error_message = invalid_msg.text
+#         if invalid_msg.is_visible() and error_message.strip() == "Date is not between Range. Please enter again":
+#             return True
+#         return False
+#     except Exception as e:
+#         print(f"Error verifying date filter error message: {e}")
+#         return False
 
 def verify_user_is_logged_in(driver) -> bool:
     """
@@ -632,20 +715,20 @@ def verify_patient_search_happened(driver) -> bool:
         print(f"Error verifying patient search: {e}")
         return False
 
-def verify_dispensary_counter_activation(driver) -> bool:
-    """
-    /**
-    * @description This method verifies if the dispensary counter is activated by checking
-    *              the visibility of the 'Deactivate Counter' button.
-    * @return boolean - Returns True if the button is visible, otherwise False.
-    */
-    """
-    try:
-        is_visible = driver.find_element(By.XPATH, "//button[contains(text(),'Deactivate Counter')]")
-        return is_visible
-    except Exception as e:
-        print(f"Error verifying dispensary counter activation: {e}")
-        return False
+# def verify_dispensary_counter_activation(driver) -> bool:
+#     """
+#     /**
+#     * @description This method verifies if the dispensary counter is activated by checking
+#     *              the visibility of the 'Deactivate Counter' button.
+#     * @return boolean - Returns True if the button is visible, otherwise False.
+#     */
+#     """
+#     try:
+#         is_visible = driver.find_element(By.XPATH, "//button[contains(text(),'Deactivate Counter')]")
+#         return is_visible
+#     except Exception as e:
+#         print(f"Error verifying dispensary counter activation: {e}")
+#         return False
 
 def verify_report_generation(driver) -> bool:
     """
@@ -662,22 +745,22 @@ def verify_report_generation(driver) -> bool:
         print(f"Error verifying report generation: {e}")
         return False
 
-def verify_user_is_on_correct_url(driver, expected_url: str) -> bool:
-    """
-    /**
-    * @description This method verifies if the user is on the correct URL by comparing
-    *              the current page URL with the expected URL.
-    * @param page - Playwright page instance.
-    * @param expected_url - The expected URL substring to validate.
-    * @return boolean - Returns True if the actual URL contains the expected URL, otherwise False.
-    */
-    """
-    try:
-        actual_url = driver.URL
-        return expected_url in actual_url
-    except Exception as e:
-        print(f"Error verifying URL: {e}")
-        return False
+# def verify_user_is_on_correct_url(driver, expected_url: str) -> bool:
+#     """
+#     /**
+#     * @description This method verifies if the user is on the correct URL by comparing
+#     *              the current page URL with the expected URL.
+#     * @param page - Playwright page instance.
+#     * @param expected_url - The expected URL substring to validate.
+#     * @return boolean - Returns True if the actual URL contains the expected URL, otherwise False.
+#     */
+#     """
+#     try:
+#         actual_url = driver.URL
+#         return expected_url in actual_url
+#     except Exception as e:
+#         print(f"Error verifying URL: {e}")
+#         return False
 
 def verify_utilities_url(driver, expected_url: str) -> bool:
     """
@@ -732,28 +815,28 @@ def verify_user_is_not_logged_in(driver) -> bool:
     """
     try:
         error_message = driver.find_element(By.XPATH('//div[contains(text(),"Invalid credentials !")]'))
-        return error_message.is_visible()
+        return error_message.is_displayed()
     except Exception as e:
         print(f"Error verifying user login failure: {e}")
         return False
 
-def check_error_message_occurs(driver) -> bool:
-    """
-    /**
-    * @description This method verifies if an error message occurs by closing the modal
-    *              and checking if the URL contains 'Lab/Settings/LabTest'.
-    * @param page - Playwright page instance.
-    * @return boolean - Returns True if the expected URL is found, otherwise False.
-    */
-    """
-    try:
-        close_button = driver.find_element(By.XPATH('//button[contains(text(),"Close")]'))
-        close_button.click()
+# def check_error_message_occurs(driver) -> bool:
+#     """
+#     /**
+#     * @description This method verifies if an error message occurs by closing the modal
+#     *              and checking if the URL contains 'Lab/Settings/LabTest'.
+#     * @param page - Playwright page instance.
+#     * @return boolean - Returns True if the expected URL is found, otherwise False.
+#     */
+#     """
+#     try:
+#         close_button = driver.find_element(By.XPATH('//button[contains(text(),"Close")]'))
+#         close_button.click()
 
-        return "Lab/Settings/LabTest" in driver.URL
-    except Exception as e:
-        print(f"Error while checking error message: {e}")
-        return False
+#         return "Lab/Settings/LabTest" in driver.URL
+#     except Exception as e:
+#         print(f"Error while checking error message: {e}")
+#         return False
 
 def is_hover_used(method) -> bool:
     """
@@ -781,9 +864,8 @@ def verify_date_filter_error_message(driver) -> bool:
     try:
         invalid_msg = driver.find_element(By.XPATH("//div[contains(@class,'invalid-msg-cal')]"))
         error_message = invalid_msg.text
-        if invalid_msg.is_visible() and error_message.strip() == "Date is not between Range. Please enter again":
+        if invalid_msg.is_displayed() and error_message.strip() == "Date is not between Range. Please enter again":
             return True
-        return False
     except Exception as e:
         print(f"Error verifying date filter error message: {e}")
         return False
@@ -799,7 +881,7 @@ def verify_visit_page_opens(driver) -> bool:
     try:
         # self.driver = setup_driver;
         visit_page = driver.find_element(By.XPATH('//h3[contains(@class,"heading")]'))
-        return visit_page.is_visible()
+        return visit_page.is_displayed()
     except Exception as e:
         print(f"Error verifying visit page: {e}")
         return False
